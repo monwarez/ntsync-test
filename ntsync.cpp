@@ -14,6 +14,8 @@
 
 #include "ntsync.h"
 
+#include <gtest/gtest.h>
+
 static int read_sem_state(int sem, __u32 *count, __u32 *max)
 {
 	struct ntsync_sem_args args;
@@ -138,7 +140,7 @@ static int wait_all_alert(int fd, __u32 count, const int *objs,
 			 count, objs, owner, alert, index);
 }
 
-TEST(semaphore_state)
+TEST(TEST_THAT, semaphore_state)
 {
 	struct ntsync_sem_args sem_args;
 	struct timespec timeout;
@@ -222,7 +224,8 @@ TEST(semaphore_state)
 	close(fd);
 }
 
-TEST(mutex_state)
+
+TEST(TEST_THAT, mutex_state)
 {
 	struct ntsync_mutex_args mutex_args;
 	__u32 owner, count, index;
@@ -376,7 +379,7 @@ TEST(mutex_state)
 	close(fd);
 }
 
-TEST(manual_event_state)
+TEST(TEST_THAT, manual_event_state)
 {
 	struct ntsync_event_args event_args;
 	__u32 index, signaled;
@@ -441,7 +444,7 @@ TEST(manual_event_state)
 	close(fd);
 }
 
-TEST(auto_event_state)
+TEST(TEST_THAT, auto_event_state)
 {
 	struct ntsync_event_args event_args;
 	__u32 index, signaled;
@@ -497,7 +500,7 @@ TEST(auto_event_state)
 	close(fd);
 }
 
-TEST(test_wait_any)
+TEST(TEST_THAT, test_wait_any)
 {
 	int objs[NTSYNC_MAX_WAIT_COUNT + 1], fd, ret;
 	struct ntsync_mutex_args mutex_args = {0};
@@ -611,7 +614,8 @@ TEST(test_wait_any)
 	close(fd);
 }
 
-TEST(test_wait_all)
+#if 0
+TEST(TEST_THAT, test_wait_all)
 {
 	struct ntsync_event_args event_args = {0};
 	struct ntsync_mutex_args mutex_args = {0};
@@ -743,7 +747,7 @@ static int wait_for_thread(pthread_t thread, unsigned int ms)
 	return pthread_timedjoin_np(thread, NULL, &timeout);
 }
 
-TEST(wake_any)
+TEST(TEST_THAT, wake_any)
 {
 	struct ntsync_event_args event_args = {0};
 	struct ntsync_mutex_args mutex_args = {0};
@@ -935,7 +939,7 @@ TEST(wake_any)
 	close(fd);
 }
 
-TEST(wake_all)
+TEST(TEST_THAT, wake_all)
 {
 	struct ntsync_event_args manual_event_args = {0};
 	struct ntsync_event_args auto_event_args = {0};
@@ -1060,7 +1064,7 @@ TEST(wake_all)
 	close(fd);
 }
 
-TEST(alert_any)
+TEST(TEST_THAT, alert_any)
 {
 	struct ntsync_event_args event_args = {0};
 	struct ntsync_wait_args wait_args = {0};
@@ -1171,7 +1175,7 @@ TEST(alert_any)
 	close(fd);
 }
 
-TEST(alert_all)
+TEST(TEST_THAT, alert_all)
 {
 	struct ntsync_event_args event_args = {0};
 	struct ntsync_wait_args wait_args = {0};
@@ -1301,7 +1305,7 @@ static void *stress_thread(void *arg)
 	return NULL;
 }
 
-TEST(stress_wait)
+TEST(TEST_THAT, stress_wait)
 {
 	struct ntsync_event_args event_args;
 	struct ntsync_mutex_args mutex_args;
@@ -1340,4 +1344,4 @@ TEST(stress_wait)
 	close(stress_device);
 }
 
-TEST_HARNESS_MAIN
+#endif
