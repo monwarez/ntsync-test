@@ -386,7 +386,7 @@ TEST( TestThat, ntsyncDevCanBeOpened )
 
     close( fd );
 }
-TEST( TestThat, createEventWork )
+TEST( TestThat, createEventWorkWithManualEqual1 )
 {
     struct ntsync_event_args event_args;
     __u32 index, signaled;
@@ -400,6 +400,25 @@ TEST( TestThat, createEventWork )
     event               = ioctl( fd, NTSYNC_IOC_CREATE_EVENT, &event_args );
     EXPECT_LE( 0, event );
     check_event_state( event, 0, 1 );
+
+    close( event );
+    close( fd );
+}
+
+TEST( TestThat, createEventWorkWithManualEqual0 )
+{
+    struct ntsync_event_args event_args;
+    __u32 index, signaled;
+    int fd, event;
+
+    fd = open( "/dev/ntsync", O_CLOEXEC | O_RDONLY );
+    ASSERT_LE( 0, fd );
+
+    event_args.manual   = 0;
+    event_args.signaled = 0;
+    event               = ioctl( fd, NTSYNC_IOC_CREATE_EVENT, &event_args );
+    EXPECT_LE( 0, event );
+    check_event_state( event, 0, 0 );
 
     close( event );
     close( fd );
