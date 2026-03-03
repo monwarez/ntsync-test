@@ -313,14 +313,14 @@ TEST( TEST_THAT, mutex_state )
     memset( &mutex_args, 0xcc, sizeof( mutex_args ) );
     ret = ioctl( mutex, NTSYNC_IOC_MUTEX_READ, &mutex_args );
     EXPECT_EQ( -1, ret );
-    EXPECT_EQ( EOWNERDEAD, errno );
+    EXPECT_EQ( EOWNERDEAD, mutex_args.errno_status );
     EXPECT_EQ( 0, mutex_args.count );
     EXPECT_EQ( 0, mutex_args.owner );
 
     memset( &mutex_args, 0xcc, sizeof( mutex_args ) );
     ret = ioctl( mutex, NTSYNC_IOC_MUTEX_READ, &mutex_args );
     EXPECT_EQ( -1, ret );
-    EXPECT_EQ( EOWNERDEAD, errno );
+    EXPECT_EQ( EOWNERDEAD, mutex_args.errno_status );
     EXPECT_EQ( 0, mutex_args.count );
     EXPECT_EQ( 0, mutex_args.owner );
 
@@ -337,7 +337,7 @@ TEST( TEST_THAT, mutex_state )
     memset( &mutex_args, 0xcc, sizeof( mutex_args ) );
     ret = ioctl( mutex, NTSYNC_IOC_MUTEX_READ, &mutex_args );
     EXPECT_EQ( -1, ret );
-    EXPECT_EQ( EOWNERDEAD, errno );
+    EXPECT_EQ( EOWNERDEAD, mutex_args.errno_status );
     EXPECT_EQ( 0, mutex_args.count );
     EXPECT_EQ( 0, mutex_args.owner );
 
